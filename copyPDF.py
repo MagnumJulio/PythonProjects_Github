@@ -11,6 +11,7 @@ import pyperclip
 text = pyperclip.paste().splitlines()
 text = ' '.join(text)
 pyperclip.copy(text)
+print("   ")
 #print(f'String in clipboard had its \\n removed')
 
 

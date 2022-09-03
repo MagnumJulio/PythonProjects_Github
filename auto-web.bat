@@ -1,5 +1,5 @@
 @echo off
-call c:/PythonProjects_Github/venv-capri/Scripts/activate.bat
-py "C:\PythonProjects_Github\auto-web.py"
-
+call c:/PythonProjects/venv-capri/Scripts/activate.bat
+python "C:\PythonProjects\auto-web.py"
+pause
 

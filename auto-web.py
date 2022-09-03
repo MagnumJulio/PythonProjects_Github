@@ -1,73 +1,68 @@
+import random
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
-import urllib
-import datetime
 import time
 from pyautogui import *
-import sys
-import webbrowser as wb
 import pyperclip
+import winsound
 
-#msg -> bomdia
-def open_wpp(bomdia):
+
+#define alarmsound
+def alarm_sound():
+    winsound.Beep(400, 200)
+    winsound.Beep(400, 200)
+    winsound.Beep(500, 250)
+
+
+
+#msg -> web.whatsapp
+def open_wpp():
     press('winleft')
-    time.sleep(5)    
+    time.sleep(10)    
     write('Chrome')
-    time.sleep(5)
+    time.sleep(3)
     press('enter')
-    time.sleep(2)
-    #entra na conta google
-    moveTo(569, 531)
-    click()
-    time.sleep(1)
+    time.sleep(3)
     #clica na barra de pesquisa
-    moveTo(436, 60)
+    moveTo(273, 65)
     click()
     time.sleep(1)
-    #https://web.whatsapp.com/send?phone={5531982544980}&text={bomdia}
+    #abre wpp
     write(f'web')
     time.sleep(0.5)    
     press('enter')
-    time.sleep(10)    
-    #click()
-    #write(f'https://web.whatsapp.com/send?phone={5531982544980}')
-    #time.sleep(0.5)    
-    #press('enter')
-    time.sleep(5)
-    moveTo(317, 351)
+    time.sleep(25)
+    #clica no meu proprio contato
+    moveTo(147, 378)
     click()
-    hotkey('ctrl', 'v') 
-    #write(bomdia)
-    time.sleep(20)
-    press('enter')
-    #time.sleep(0.5)    
-    #press('enter')
+    time.sleep(0.5)
+    hotkey('ctrl', 'v')
+    time.sleep(15)
 
-#espera 6:40 para executar programa
-'''
-while datetime.datetime.now().minute != 40 or datetime.datetime.now().hour != 5:
-    time.sleep(1)
-'''
+
+#tempo aleatório
+sleepy = random.randint(4, 9)
 
 #login bom dia mercado
 options = webdriver.ChromeOptions()
 options.add_experimental_option('excludeSwitches', ['enable-logging'])
-#options.add_experimental_option("--headless")
+options.headless = True
 driver = webdriver.Chrome(options=options)
 #https://www.bomdiamercado.com.br/exclusivo-assinante
-driver.get("https://www.bomdiamercado.com.br/exclusivo-assinante")
 
+driver.get("https://www.bomdiamercado.com.br/exclusivo-assinante")
 while len(driver.find_elements('xpath', '//*[@id="email"]')) < 1:
     time.sleep(2)
 
-time.sleep(5)
-driver.find_element('xpath', '//*[@id="email"]').send_keys('')
-time.sleep(5)
-driver.find_element('xpath', '//*[@id="password"]').send_keys('')
-time.sleep(5)
-driver.find_element('xpath', '//*[@id="next_button_default"]').click()
-time.sleep(5)
+time.sleep(sleepy)
+driver.find_element('xpath', '//*[@id="email"]').send_keys('fernandolodi@capribr.com')
+time.sleep(sleepy)
+driver.find_element('xpath', '//*[@id="password"]').send_keys('Caprifo@3220')
+time.sleep(sleepy)
+#driver.find_element('xpath', '//*[@id="next_button_default"]').click()
+driver.find_element('xpath', '//*[@id="password"]').send_keys(Keys.ENTER)
+time.sleep(sleepy)
 
 #pega mensagem de bom dia
 bomdia = ""
@@ -92,15 +87,17 @@ for texto in lista_soup:
         break
     else:
         bomdia += texto.text + '\n'
-
 #soup = BeautifulSoup(html_content, 'html5lib')
+#print(bomdia)
 
-
-#bomdia = "Olá"
+#copia texto bom dia
 pyperclip.copy(bomdia)
 print(bomdia)
 
 driver.close()
+time.sleep(2)
 
-#enviar msg pelo wpp já aberto com pyautogui
-open_wpp(bomdia)
+#usa pyautogui para mandar a msg pelo whatsapp para mim mesmo
+open_wpp()
+
+alarm_sound()
